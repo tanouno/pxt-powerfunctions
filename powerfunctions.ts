@@ -31,13 +31,13 @@ enum PowerFunctionsOutput {
 }
 
 enum PowerFunctionsMotor {
-    //% block="red | channel 1"
+    //% block="rosso | canale 1"
     Red1 = 0,
-    //% block="red | channel 2"
+    //% block="rosso | canale 2"
     Red2 = 1,
-    //% block="red | channel 3"
+    //% block="rosso | canale 3"
     Red3 = 2,
-    //% block="red | channel 4"
+    //% block="rosso | canale 4"
     Red4 = 3,
     //% block="blue | channel 1"
     Blue1 = 4,
@@ -227,6 +227,7 @@ namespace powerfunctions {
         }
     }
 
+    const HALF_PERIOD = Math.idiv(0.5 * 1000000, 38000)
     const IR_MARK = Math.idiv(6 * 1000000, 38000)
     const START_STOP_PAUSE = Math.idiv((45 - 6) * 1000000, 38000)
     const LOW_PAUSE = Math.idiv((16 - 6) * 1000000, 38000)
@@ -281,11 +282,23 @@ namespace powerfunctions {
             control.waitMicros(2000)
         }
 
+        // Send a bit
+        private send_bit() {
+            for(let i = 0; i < 6; i++) {
+                pins.digitalWritePin(this.pin, 1)
+                control.waitMicros(HALF_PERIOD);
+                pins.digitalWritePin(this.pin, 0)
+                control.waitMicros(HALF_PERIOD);
+            }
+        }
+
+
         public transmitBit(markMicroSeconds: number, pauseMicroSeconds: number): void {
-            pins.analogWritePin(this.pin, 511)
-            control.waitMicros(markMicroSeconds - this.writeAndWaitEffort)
-            pins.analogWritePin(this.pin, 0)
-            control.waitMicros(Math.max(1, pauseMicroSeconds - this.writeAndWaitEffort - this.messageProcessingEffort))
+            this.send_bit()
+//          pins.analogWritePin(this.pin, 511)
+//            control.waitMicros(markMicroSeconds /* - this.writeAndWaitEffort */)
+//            pins.analogWritePin(this.pin, 0)
+            control.waitMicros(Math.max(1, pauseMicroSeconds /* - this.writeAndWaitEffort - this.messageProcessingEffort */))
         }
 
         private transmitBitCallibrationDummy(markMicroSeconds: number, pauseMicroSeconds: number): void {
@@ -293,9 +306,9 @@ namespace powerfunctions {
         }
 
         public sendMessage(message: number): void {
-            const MAX_LENGTH_MS = 16
+            const MAX_LENGTH_MS = 77
             const channel = 1 + ((message >> 12) & 0b0011)
-
+            basic.pause((4 - channel) * MAX_LENGTH_MS)
             for (let sendCount = 0; sendCount < 5; sendCount++) {
                 const MESSAGE_BITS = 16
 
@@ -317,7 +330,7 @@ namespace powerfunctions {
                 if (sendCount == 0 || sendCount == 1) {
                     basic.pause(5 * MAX_LENGTH_MS)
                 } else {
-                    basic.pause((6 + 2 * channel) * MAX_LENGTH_MS)
+                    basic.pause((5 + 2 * channel) * MAX_LENGTH_MS)
                 }
             }
         }
