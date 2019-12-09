@@ -286,9 +286,9 @@ namespace powerfunctions {
         private send_bit() {
             for(let i = 0; i < 6; i++) {
                 pins.digitalWritePin(this.pin, 1)
-                control.waitMicros(HALF_PERIOD);
+                control.waitMicros(HALF_PERIOD)
                 pins.digitalWritePin(this.pin, 0)
-                control.waitMicros(HALF_PERIOD);
+                control.waitMicros(HALF_PERIOD)
             }
         }
 
@@ -298,7 +298,7 @@ namespace powerfunctions {
 //          pins.analogWritePin(this.pin, 511)
 //            control.waitMicros(markMicroSeconds /* - this.writeAndWaitEffort */)
 //            pins.analogWritePin(this.pin, 0)
-            control.waitMicros(Math.max(1, pauseMicroSeconds /* - this.writeAndWaitEffort - this.messageProcessingEffort */))
+            control.waitMicros(Math.max(1, pauseMicroSeconds))
         }
 
         private transmitBitCallibrationDummy(markMicroSeconds: number, pauseMicroSeconds: number): void {
