@@ -1,4 +1,5 @@
 # pxt-powerfunctions - Power Functions IR Sender
+# by Cristiano
 
 Control your LEGO® Power Functions motors using your micro:bit or Calliope-Mini, an infrared LED and MakeCode.
 This extension turns your device into a remote control for your Power Functions devices.
