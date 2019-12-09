@@ -1,0 +1,19 @@
+{
+  "name": "pxt-powerfunctions",
+  "version": "0.1.0",
+  "description": "Power Functions for Lego® by Cristiano",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanouno/pxt-powerfunctions.git"
+  },
+  "author": "“Cristiano”",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanouno/pxt-powerfunctions/issues"
+  },
+  "homepage": "https://github.com/tanouno/pxt-powerfunctions#readme"
+}
